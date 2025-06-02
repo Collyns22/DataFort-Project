@@ -3,14 +3,14 @@ import { NavLink } from "react-router-dom";
 const navLinks = [
   { to: "/", label: "Dashboard" },
   { to: "/inventory", label: "Inventory" },
-  { to: "/orders", label: "Orders" },
+  { to: "/orders", label: "Sales Orders" },
   { to: "/suppliers", label: "Suppliers" },
   { to: "/reports", label: "Reports" },
   { to: "/settings", label: "Settings" },
 ];
 
 const SideBar = () => (
-  <div className="bg-gray-500 text-white w-64 h-full flex flex-col shadow-lg">
+  <div className="bg-gray-950 text-white w-60 h-full flex flex-col shadow-lg">
     <div className="p-6 flex items-center justify-center border-b border-gray-700">
       <span className="text-2xl font-extrabold tracking-wide">General</span>
     </div>
