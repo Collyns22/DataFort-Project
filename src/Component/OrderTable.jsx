@@ -1,37 +1,14 @@
 import React, { useState } from "react";
 
-const OrderTable = () => {
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      productName: "Lg split-unit AC",
-      category: "Electronics",
-      orderDate: "2023-10-01",
-      quantity: "30",
-      totalAmount: "$150.00",
-    },
-    {
-      id: 2,
-      productName: "Hp Laptop",
-      category: "Computers",
-      orderDate: "2023-10-02",
-      quantity: "45",
-      totalAmount: "$200.00",
-    },
-    {
-      id: 3,
-      productName: "Binatone Refrigerator",
-      category: "Appliances",
-      orderDate: "2023-10-03",
-      quantity: "65",
-      totalAmount: "$300.00",
-    },
-  ]);
-
+const OrderTable = ({ orders, setOrders }) => {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  const handleRadioChange = (orderId) => {
-    setSelectedOrderId(orderId);
+  const handleCheckboxChange = (orderId) => {
+    if (selectedOrderId === orderId) {
+      setSelectedOrderId(null);
+    } else {
+      setSelectedOrderId(orderId);
+    }
   };
 
   const handleRemoveOrder = () => {
@@ -51,6 +28,7 @@ const OrderTable = () => {
             <th className="py-3 px-6 text-left">Order Date</th>
             <th className="py-3 px-6 text-left">Quantity</th>
             <th className="py-3 px-6 text-left">Total Amount</th>
+            <th className="py-3 px-6 text-left">Status</th>
           </tr>
         </thead>
         <tbody className="text-gray-600 text-sm font-light">
@@ -61,10 +39,9 @@ const OrderTable = () => {
             >
               <td className="py-3 px-6">
                 <input
-                  type="radio"
-                  name="removeOrder"
+                  type="checkbox"
                   checked={selectedOrderId === order.id}
-                  onChange={() => handleRadioChange(order.id)}
+                  onChange={() => handleCheckboxChange(order.id)}
                   title="Check to remove"
                 />
               </td>
@@ -74,6 +51,7 @@ const OrderTable = () => {
               <td className="py-3 px-6">{order.orderDate}</td>
               <td className="py-3 px-6">{order.quantity}</td>
               <td className="py-3 px-6">{order.totalAmount}</td>
+              <td className="py-3 px-6">{order.status}</td>
             </tr>
           ))}
         </tbody>
