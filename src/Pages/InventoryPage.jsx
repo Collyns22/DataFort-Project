@@ -30,6 +30,17 @@ const InventoryPage = () => {
       supplier: "Emmanuel & Sons Limited",
       status: "Low Stock",
     },
+    {
+      id: 3,
+      image:
+        "https://th.bing.com/th/id/OIP.KLutQzmurWnk0bFujxyQkgHaFg?r=0&cb=thvnextc1&rs=1&pid=ImgDetMain",
+      sku: "SKU003",
+      name: "Dell Inspiron 15",
+      category: "Laptops",
+      stock: 150,
+      price: 750000,
+      supplier: "Tech World Nigeria ltd",
+    },
     // Add more items as needed
   ]);
 
@@ -87,7 +98,10 @@ const InventoryPage = () => {
           </button>
         </div>
         {/* Pass inventoryItems as prop */}
-        <InventoryTable inventoryItems={inventoryItems} />
+        <InventoryTable
+          inventoryItems={inventoryItems}
+          setInventoryItems={setInventoryItems}
+        />
         {showAddProduct && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
