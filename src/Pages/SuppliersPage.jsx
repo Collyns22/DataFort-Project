@@ -21,6 +21,8 @@ const SuppliersPage = () => {
     },
   ]);
   const [showAdd, setShowAdd] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const [newSupplier, setNewSupplier] = useState({
     name: "",
     contact: "",
@@ -28,18 +30,30 @@ const SuppliersPage = () => {
     status: "Active",
     address: "",
   });
+  const [editFields, setEditFields] = useState({
+    name: "",
+    contact: "",
+    phone: "",
+    status: "Active",
+    address: "",
+  });
 
+  // Handle input changes for add and edit
   const handleChange = (e) => {
     setNewSupplier({ ...newSupplier, [e.target.name]: e.target.value });
   };
+  const handleEditFieldChange = (e) => {
+    setEditFields({ ...editFields, [e.target.name]: e.target.value });
+  };
 
+  // Add supplier
   const handleAddSupplier = (e) => {
     e.preventDefault();
     setSuppliers([
       ...suppliers,
       {
         ...newSupplier,
-        id: suppliers.length + 1,
+        id: suppliers.length ? Math.max(...suppliers.map((s) => s.id)) + 1 : 1,
       },
     ]);
     setShowAdd(false);
@@ -50,6 +64,65 @@ const SuppliersPage = () => {
       status: "Active",
       address: "",
     });
+  };
+
+  // Remove supplier
+  const handleRemoveSupplier = () => {
+    setSuppliers((prev) => prev.filter((s) => s.id !== selectedId));
+    setSelectedId(null);
+    setIsEditing(false);
+  };
+
+  // Start editing
+  const handleEditSupplier = () => {
+    const supplier = suppliers.find((s) => s.id === selectedId);
+    if (supplier) {
+      setEditFields({
+        name: supplier.name,
+        contact: supplier.contact,
+        phone: supplier.phone,
+        status: supplier.status,
+        address: supplier.address,
+      });
+      setIsEditing(true);
+    }
+  };
+
+  // Save edit
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
+    setSuppliers((prev) =>
+      prev.map((s) =>
+        s.id === selectedId
+          ? {
+              ...s,
+              name: editFields.name,
+              contact: editFields.contact,
+              phone: editFields.phone,
+              status: editFields.status,
+              address: editFields.address,
+            }
+          : s
+      )
+    );
+    setIsEditing(false);
+    setSelectedId(null);
+  };
+
+  // Cancel edit
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+  };
+
+  // Checkbox handler
+  const handleCheckboxChange = (id) => {
+    if (selectedId === id) {
+      setSelectedId(null);
+      setIsEditing(false);
+    } else {
+      setSelectedId(id);
+      setIsEditing(false);
+    }
   };
 
   return (
@@ -64,8 +137,135 @@ const SuppliersPage = () => {
         </button>
       </div>
       <div className="bg-white shadow-md rounded-lg p-4">
-        <SupplierList suppliers={suppliers} />
+        <table className="min-w-full bg-white border border-gray-300">
+          <thead>
+            <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+              <th className="py-3 px-6 text-left"></th>
+              <th className="py-3 px-6 text-left">Name</th>
+              <th className="py-3 px-6 text-left">Contact</th>
+              <th className="py-3 px-6 text-left">Phone</th>
+              <th className="py-3 px-6 text-left">Address</th>
+              <th className="py-3 px-6 text-left">Status</th>
+            </tr>
+          </thead>
+          <tbody className="text-gray-600 text-sm font-light">
+            {suppliers.map((supplier) => (
+              <tr
+                key={supplier.id}
+                className="border-b border-gray-200 hover:bg-gray-100"
+              >
+                <td className="py-3 px-6 text-left">
+                  <input
+                    type="checkbox"
+                    checked={selectedId === supplier.id}
+                    onChange={() => handleCheckboxChange(supplier.id)}
+                    title="Select to edit or remove"
+                  />
+                </td>
+                <td className="py-3 px-6 text-left">
+                  {isEditing && selectedId === supplier.id ? (
+                    <input
+                      type="text"
+                      name="name"
+                      value={editFields.name}
+                      onChange={handleEditFieldChange}
+                      className="border rounded-md p-1 w-full"
+                    />
+                  ) : (
+                    supplier.name
+                  )}
+                </td>
+                <td className="py-3 px-6 text-left">
+                  {isEditing && selectedId === supplier.id ? (
+                    <input
+                      type="text"
+                      name="contact"
+                      value={editFields.contact}
+                      onChange={handleEditFieldChange}
+                      className="border rounded-md p-1 w-full"
+                    />
+                  ) : (
+                    supplier.contact
+                  )}
+                </td>
+                <td className="py-3 px-6 text-left">
+                  {isEditing && selectedId === supplier.id ? (
+                    <input
+                      type="text"
+                      name="phone"
+                      value={editFields.phone}
+                      onChange={handleEditFieldChange}
+                      className="border rounded-md p-1 w-full"
+                    />
+                  ) : (
+                    supplier.phone
+                  )}
+                </td>
+                <td className="py-3 px-6 text-left">
+                  {isEditing && selectedId === supplier.id ? (
+                    <input
+                      type="text"
+                      name="address"
+                      value={editFields.address}
+                      onChange={handleEditFieldChange}
+                      className="border rounded-md p-1 w-full"
+                    />
+                  ) : (
+                    supplier.address
+                  )}
+                </td>
+                <td className="py-3 px-6 text-left">
+                  {isEditing && selectedId === supplier.id ? (
+                    <select
+                      name="status"
+                      value={editFields.status}
+                      onChange={handleEditFieldChange}
+                      className="border rounded-md p-1 w-full"
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  ) : (
+                    supplier.status
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+      {selectedId && !isEditing && (
+        <div className="mt-4 flex justify-end gap-2">
+          <button
+            className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
+            onClick={handleRemoveSupplier}
+          >
+            Remove Supplier
+          </button>
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+            onClick={handleEditSupplier}
+          >
+            Edit Supplier
+          </button>
+        </div>
+      )}
+      {isEditing && (
+        <div className="mt-4 flex justify-end gap-2">
+          <button
+            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition"
+            onClick={handleSaveEdit}
+          >
+            Save
+          </button>
+          <button
+            className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition"
+            onClick={handleCancelEdit}
+          >
+            Cancel
+          </button>
+        </div>
+      )}
       {showAdd && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
@@ -119,7 +319,7 @@ const SuppliersPage = () => {
               <div className="flex justify-between">
                 <button
                   type="button"
-                  className="text-gray-500"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-md"
                   onClick={() => setShowAdd(false)}
                 >
                   Cancel
