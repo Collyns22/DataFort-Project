@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import WelcomePage from "./Pages/WelcomePage.jsx";
 import DashboardPage from "./Pages/DashboardPage";
-import InventoryPage from "./Pages/InventoryPage.jsx";
+import InventoryPage from "./Pages/InventoryPage";
 import OrdersPage from "./Pages/OrdersPage.jsx";
 import ReportsPage from "./Pages/ReportsPage.jsx";
 import SettingsPage from "./Pages/SettingPage.jsx";
@@ -24,6 +24,34 @@ const App = () => {
     password: "",
     role: "user",
   });
+
+  const [inventoryItems, setInventoryItems] = useState([
+    // Example inventory items
+    {
+      id: 1,
+      name: "Concert violin",
+      price: 1200.0,
+      stock: 97,
+      category: "Musical Instruments",
+      supplier: "Moscow Music Store",
+      image:
+        "https://th.bing.com/th/id/OIP.8lM3FD2LBtA2vBujS7EBXwHaHa?r=0&cb=thvnextc1&rs=1&pid=ImgDetMain",
+    },
+    {
+      id: 2,
+      name: "LG Plasma Television",
+      price: 520,
+      stock: 15,
+      category: "Electronics",
+      supplier: "Digital World international",
+      image:
+        "https://cdn.pixabay.com/photo/2018/12/22/03/27/smart-tv-3889141_960_720.png",
+    },
+    // ...other items
+  ]);
+  const [orders] = useState([
+    // ...your orders data
+  ]);
 
   // Handlers
   const handleChange = (e) =>
@@ -89,8 +117,24 @@ const App = () => {
           <SideBar />
           <main className="flex-1 p-4 bg-gray-50 overflow-y-auto">
             <Routes>
-              <Route path="/" element={<DashboardPage />} />
-              <Route path="/inventory" element={<InventoryPage />} />
+              <Route
+                path="/"
+                element={
+                  <DashboardPage
+                    inventoryItems={inventoryItems}
+                    orders={orders}
+                  />
+                }
+              />
+              <Route
+                path="/inventory"
+                element={
+                  <InventoryPage
+                    inventoryItems={inventoryItems}
+                    setInventoryItems={setInventoryItems}
+                  />
+                }
+              />
               <Route path="/orders" element={<OrdersPage />} />
               <Route path="/reports" element={<ReportsPage />} />
               <Route path="/settings" element={<SettingsPage />} />

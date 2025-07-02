@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 const getStatus = (stock) => {
   if (stock === 0) return "Out of Stock";
-  if (stock < 20) return "Low Stock";
-  if (stock > 50) return "In Stock";
+  if (stock < 50) return "Low Stock";
+  if (stock >= 50) return "In Stock";
   return "Low Stock";
 };
 

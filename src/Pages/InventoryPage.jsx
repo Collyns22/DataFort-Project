@@ -1,48 +1,9 @@
 import React, { useState } from "react";
 import InventoryTable from "../Component/InventoryTable";
 
-const InventoryPage = () => {
-  const [showAddProduct, setShowAddProduct] = useState(false);
 
-  // Inventory state to hold all products
-  const [inventoryItems, setInventoryItems] = useState([
-    {
-      id: 1,
-      image:
-        "https://th.bing.com/th/id/OIP.eEVN-daMBa3kluS0L_GzBQHaHj?rs=1&pid=ImgDetMain",
-      sku: "SKU001",
-      name: "Samsung Galaxy S21",
-      category: "Smartphones",
-      stock: 200,
-      price: 426,
-      supplier: "Skynet Technologies",
-      status: "In Stock",
-    },
-    {
-      id: 2,
-      image:
-        "https://th.bing.com/th/id/OIP.t6FQsL3ntKtlIvQK1VwhfgHaHa?rs=1&pid=ImgDetMain",
-      sku: "SKU002",
-      name: "LG flat screen TV",
-      category: "Electronics",
-      stock: 50,
-      price: 2000.0,
-      supplier: "Emmanuel & Sons Limited",
-      status: "Low Stock",
-    },
-    {
-      id: 3,
-      image:
-        "https://th.bing.com/th/id/OIP.KLutQzmurWnk0bFujxyQkgHaFg?r=0&cb=thvnextc1&rs=1&pid=ImgDetMain",
-      sku: "SKU003",
-      name: "Dell Inspiron 15",
-      category: "Laptops",
-      stock: 150,
-      price: 750000,
-      supplier: "Tech World Nigeria ltd",
-    },
-    // Add more items as needed
-  ]);
+const InventoryPage = ({ inventoryItems, setInventoryItems }) => {
+  const [showAddProduct, setShowAddProduct] = useState(false);
 
   // Form state for new product
   const [newProduct, setNewProduct] = useState({
@@ -116,7 +77,6 @@ const InventoryPage = () => {
                     value={newProduct.image}
                     onChange={handleChange}
                     className="w-full border rounded-md p-2"
-                    required
                   />
                 </label>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
