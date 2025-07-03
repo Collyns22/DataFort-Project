@@ -49,8 +49,26 @@ const App = () => {
     },
     // ...other items
   ]);
-  const [orders] = useState([
-    // ...your orders data
+  // Make orders state editable!
+  const [orders, setOrders] = useState([
+    {
+      id: 1,
+      productName: "LG Plasma Television",
+      category: "Electronics",
+      orderDate: "2023-10-01",
+      quantity: 2,
+      totalAmount: "$1040.00",
+      status: "Pending",
+    },
+    {
+      id: 2,
+      productName: "Concert violin",
+      category: "Musical Instruments",
+      orderDate: "2023-10-05",
+      quantity: 1,
+      totalAmount: "$1200.00",
+      status: "delivered",
+    },
   ]);
 
   // Handlers
@@ -135,7 +153,15 @@ const App = () => {
                   />
                 }
               />
-              <Route path="/orders" element={<OrdersPage />} />
+              <Route
+                path="/orders"
+                element={
+                  <OrdersPage
+                    orders={orders}
+                    setOrders={setOrders}
+                  />
+                }
+              />
               <Route path="/reports" element={<ReportsPage />} />
               <Route path="/settings" element={<SettingsPage />} />
               <Route path="/suppliers" element={<SuppliersPage />} />

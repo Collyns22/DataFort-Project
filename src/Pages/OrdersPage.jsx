@@ -1,37 +1,8 @@
 import React, { useState } from "react";
 import OrderTable from "../Component/OrderTable.jsx";
 
-const OrdersPage = () => {
+const OrdersPage = ({ orders, setOrders }) => {
   const [showAddOrder, setShowAddOrder] = useState(false);
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      productName: "Lg split-unit AC",
-      category: "Electronics",
-      orderDate: "2023-10-01",
-      quantity: "30",
-      totalAmount: "$150.00",
-      status: "Pending",
-    },
-    {
-      id: 2,
-      productName: "Hp Laptop",
-      category: "Computers",
-      orderDate: "2023-10-02",
-      quantity: "45",
-      totalAmount: "$200.00",
-      status: "Shipped",
-    },
-    {
-      id: 3,
-      productName: "Binatone Refrigerator",
-      category: "Appliances",
-      orderDate: "2023-10-03",
-      quantity: "65",
-      totalAmount: "$300.00",
-      status: "Delivered",
-    },
-  ]);
   const [newOrder, setNewOrder] = useState({
     productName: "",
     category: "",
@@ -137,6 +108,7 @@ const OrdersPage = () => {
                   <option value="Pending">Pending</option>
                   <option value="Shipped">Shipped</option>
                   <option value="Delivered">Delivered</option>
+                  
                 </select>
                 <div className="flex justify-between">
                   <button
